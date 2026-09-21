@@ -76,10 +76,13 @@ export function loadGraph(path) {
     arr.push(i);
   }
 
-  function nearestNode(lat, lon) {
+  // Up to k nearest graph nodes, sorted by distance. One-way mapping pockets
+  // can leave the single nearest node unreachable, so callers should retry
+  // with the next candidates before giving up on a route.
+  function nearestNodes(lat, lon, k = 1) {
     const baseLa = Math.floor(lat / CELL), baseLo = Math.floor(lon / CELL);
+    const found = [];
     for (let ring = 0; ring <= 40; ring++) {
-      let best = -1, bestD = Infinity;
       for (let dla = -ring; dla <= ring; dla++) {
         for (let dlo = -ring; dlo <= ring; dlo++) {
           if (Math.max(Math.abs(dla), Math.abs(dlo)) !== ring) continue;
@@ -87,14 +90,20 @@ export function loadGraph(path) {
           if (!arr) continue;
           for (const i of arr) {
             const c = nodeCoord[i];
-            const d = haversine(lat, lon, coordLat[c], coordLon[c]);
-            if (d < bestD) { bestD = d; best = i; }
+            found.push({ node: i, distanceM: haversine(lat, lon, coordLat[c], coordLon[c]) });
           }
         }
       }
-      if (best >= 0) return { node: best, distanceM: bestD };
+      // stop one ring after the kth candidate could be complete
+      if (found.length >= k && ring >= 1) break;
     }
-    return null;
+    found.sort((a, b) => a.distanceM - b.distanceM);
+    return found.slice(0, k);
+  }
+
+  function nearestNode(lat, lon) {
+    const r = nearestNodes(lat, lon, 1);
+    return r.length ? r[0] : null;
   }
 
   const nodeLat = (i) => coordLat[nodeCoord[i]];
@@ -103,7 +112,7 @@ export function loadGraph(path) {
   return {
     nNodes, nEdges, coordLat, coordLon, nodeCoord,
     firstEdge, edgeTo, edgeTime, edgeDist, edgeName, edgeGeoOff, edgeGeoLen, edgeClass,
-    geo, names, revFirst, revHead, revEdge, nearestNode, nodeLat, nodeLon,
+    geo, names, revFirst, revHead, revEdge, nearestNode, nearestNodes, nodeLat, nodeLon,
     maxSpeedMps: 100 / 3.6,
   };
 }

@@ -48,9 +48,22 @@ app.get('/api/route', (req, res) => {
   const algo = ['dijkstra', 'astar', 'ch'].includes(req.query.algo) ? req.query.algo : 'ch';
   if (algo === 'ch' && !ch) return res.status(503).json({ error: 'CH data not loaded' });
 
-  const snapA = g.nearestNode(from.lat, from.lon);
-  const snapB = g.nearestNode(to.lat, to.lon);
-  if (!snapA || !snapB) return res.status(404).json({ error: 'no road found near those points' });
+  // Snap to several nearby nodes and probe with the fastest engine: OSM data
+  // has small one-way mapping pockets where the single nearest node cannot
+  // reach the rest of the city, so retry down the candidate list.
+  const candsA = g.nearestNodes(from.lat, from.lon, 3);
+  const candsB = g.nearestNodes(to.lat, to.lon, 3);
+  if (!candsA.length || !candsB.length) return res.status(404).json({ error: 'no road found near those points' });
+  const tries = [];
+  for (const a of candsA) for (const b of candsB) tries.push([a, b]);
+  tries.sort((p, q) => (p[0].distanceM + p[1].distanceM) - (q[0].distanceM + q[1].distanceM));
+  const probe = ch ? (a, b) => chQuery(g, ch, a, b).found : (a, b) => dijkstra(g, a, b).found;
+  let snapA = null, snapB = null;
+  for (const [a, b] of tries) {
+    if (a.node === b.node) continue;
+    if (probe(a.node, b.node)) { snapA = a; snapB = b; break; }
+  }
+  if (!snapA) return res.status(404).json({ error: 'no route between those points' });
 
   const compare = req.query.compare === '1' && ch;
   const stats = {};
