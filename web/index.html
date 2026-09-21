@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Meridian - a routing engine for Indian roads</title>
+  <meta name="description" content="Dijkstra, A* and contraction hierarchies over real OpenStreetMap data. Drag the pins, compare the engines." />
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="map"></div>
+
+  <div class="panel route-card" id="routeCard">
+    <div class="waypoints">
+      <div class="wp-row">
+        <span class="wp-dot wp-from"></span>
+        <input id="fromInput" type="text" placeholder="Choose a start on the map" readonly />
+      </div>
+      <div class="wp-divider"></div>
+      <div class="wp-row">
+        <span class="wp-dot wp-to"></span>
+        <input id="toInput" type="text" placeholder="Choose a destination" readonly />
+      </div>
+      <button class="swap" id="swapBtn" title="Swap" aria-label="Swap start and destination">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 1v10M4 11l-2.5-2.5M4 11l2.5-2.5M12 15V5M12 5L9.5 7.5M12 5l2.5 2.5"/></svg>
+      </button>
+    </div>
+    <div class="algo-row" id="algoRow" role="tablist">
+      <button class="algo active" data-algo="ch" role="tab">Engine <span class="algo-sub">contraction&nbsp;hierarchies</span></button>
+      <button class="algo" data-algo="astar" role="tab">A*</button>
+      <button class="algo" data-algo="dijkstra" role="tab">Dijkstra</button>
+    </div>
+  </div>
+
+  <div class="panel summary-card hidden" id="summaryCard">
+    <div class="summary-top">
+      <div>
+        <div class="summary-time" id="summaryTime">-</div>
+        <div class="summary-sub" id="summarySub">-</div>
+      </div>
+      <div class="summary-badge" id="summaryBadge">Fastest route</div>
+    </div>
+    <div class="engine-line" id="engineLine"></div>
+    <ol class="steps" id="stepsList"></ol>
+  </div>
+
+  <div class="panel engine-card hidden" id="engineCard">
+    <div class="engine-title">Same answer, three engines</div>
+    <div class="engine-grid" id="engineGrid"></div>
+    <div class="engine-note" id="engineNote"></div>
+  </div>
+
+  <div class="hint" id="hint">Click the map to drop your start, then your destination. Drag the pins to reroute.</div>
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
