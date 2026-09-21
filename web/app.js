@@ -161,7 +161,7 @@ function renderEngineCard(stats) {
   const rows = [
     ['dijkstra', 'Dijkstra'],
     ['astar', 'A*'],
-    ['ch', 'Engine · CH'],
+    ['ch', 'CH'],
   ];
   $('engineGrid').innerHTML = rows.map(([k, label]) => {
     const s = stats[k];

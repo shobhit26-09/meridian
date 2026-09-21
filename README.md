@@ -5,7 +5,7 @@ into a road graph, three shortest-path engines are implemented from scratch -
 Dijkstra, A*, and contraction hierarchies - and a MapLibre UI wraps it with
 draggable waypoints and turn-by-turn directions.
 
-**Live:** _deploy link lands here_
+**Live:** https://meridian-nveb.onrender.com
 
 ![Meridian routing across Delhi](docs/screenshot.png)
 
