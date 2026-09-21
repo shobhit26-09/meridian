@@ -208,10 +208,12 @@ export function chQuery(g, ch, source, target) {
         }
       }
     }
-    if (heapF.size > 0 && heapB.size > 0) {
-      const minF = heapF.prios[0], minB = heapB.prios[0];
-      if (minF + minB >= best) break;
-    }
+    // No early topF+topB>=best break: with stale heap entries the tops do not
+    // lower-bound every pending meet improvement, and the break was observed to
+    // cut off optimal paths on the real Delhi graph (benchmark agreement fell
+    // to 18/30). The du<=best prune above keeps the drain cheap; correctness
+    // beats the last few settled nodes.
+    void 0;
   }
 
   if (meet < 0) return { found: false, settled };

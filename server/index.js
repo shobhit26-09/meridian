@@ -1,4 +1,4 @@
-// Meridian API: routing over the preprocessed Himachal road graph.
+// Meridian API: routing over the preprocessed Delhi road graph.
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

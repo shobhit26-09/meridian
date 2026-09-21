@@ -1,0 +1,23 @@
+{
+  "pairs": 30,
+  "graphNodes": 280227,
+  "baseEdges": 719351,
+  "dijkstra": {
+    "avgMs": 167.48028053333329,
+    "p95Ms": 194.34625600000004,
+    "avgSettled": 280568
+  },
+  "astar": {
+    "avgMs": 143.29172826666664,
+    "p95Ms": 213.81328399999984,
+    "avgSettled": 169594
+  },
+  "ch": {
+    "avgMs": 2.830908899999978,
+    "p95Ms": 6.009954999999991,
+    "avgSettled": 1167
+  },
+  "speedupDijkstra": 59.16131053646219,
+  "speedupAstar": 50.61686310946557,
+  "settledReduction": 240.41816623821765
+}

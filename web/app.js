@@ -1,15 +1,15 @@
 /* Meridian frontend: MapLibre map, draggable waypoints, live engine comparison. */
 /* global maplibregl */
 
-const BOUNDS = [[75.55, 30.30], [79.05, 33.30]]; // graph coverage (Himachal)
+const BOUNDS = [[76.9479, 28.4115], [77.5168, 28.7884]]; // graph coverage (Delhi NCT)
 const state = { from: null, to: null, algo: 'ch', route: null, compare: null, setting: 'from' };
 
 const map = new maplibregl.Map({
   container: 'map',
   style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-  center: [77.25, 31.8],
-  zoom: 7.4,
-  maxBounds: [[73.5, 28.5], [81, 35]],
+  center: [77.21, 28.61],
+  zoom: 10.2,
+  maxBounds: [[76.6, 28.1], [77.9, 29.1]],
   attributionControl: { compact: true },
 });
 map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');

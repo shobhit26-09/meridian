@@ -257,8 +257,10 @@ if STAGE in ('finish', 'all'):
 
     meta = {
         'graphNodes': n2, 'edges': m, 'coords': len(slim_lat),
-        'names': len(names_list), 'bbox': BBOX, 'region': 'Himachal Pradesh, India',
-        'source': 'Geofabrik india-latest.osm.pbf (c) OpenStreetMap contributors',
+        'names': len(names_list),
+        'bbox': [round(min(slim_lon), 4), round(min(slim_lat), 4), round(max(slim_lon), 4), round(max(slim_lat), 4)],
+        'region': 'Delhi NCT, India',
+        'source': 'BBBike NewDelhi extract (c) OpenStreetMap contributors',
         'builtAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
         'graphBinBytes': os.path.getsize('data/graph.bin'),
     }

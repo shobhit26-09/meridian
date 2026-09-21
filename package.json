@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/index.js",
-    "build:graph": "python3 scripts/build_graph.py",
+    "build:graph": "python3 scripts/build_graph_osmium.py all && python3 scripts/build_graph.py data/newdelhi.osm.pbf finish",
     "build:ch": "node scripts/build_ch.js",
     "benchmark": "node scripts/benchmark.js"
   },

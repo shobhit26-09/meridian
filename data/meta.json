@@ -1,0 +1,16 @@
+{
+  "graphNodes": 280227,
+  "edges": 719351,
+  "coords": 705959,
+  "names": 3332,
+  "bbox": [
+    76.9479,
+    28.4115,
+    77.5168,
+    28.7884
+  ],
+  "region": "Delhi NCT, India",
+  "source": "BBBike NewDelhi extract (c) OpenStreetMap contributors",
+  "builtAt": "2026-09-21T19:12:54Z",
+  "graphBinBytes": 42582834
+}
